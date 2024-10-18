@@ -2,20 +2,26 @@ import React, { useState } from 'react';
 import './instruction.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-
 function Instruction() {
   const location = useLocation();
-  const navigator = useNavigate();
-  const testid  = location.state.testid;
+  const navigate = useNavigate();
+  const testid = location.state.testid;
   const [continueChecked, setContinueChecked] = useState(false);
+  const [showValidationError, setShowValidationError] = useState(false);
 
   const handleContinueCheckboxChange = () => {
     setContinueChecked(!continueChecked);
+    if (showValidationError && !continueChecked) {
+      setShowValidationError(false);
+    }
   };
 
   function handleClick() {
-    console.log(testid);
-    navigator('/attempt', {state: {testid: testid}});
+    if (continueChecked) {
+      navigate('/attempt', { state: { testid: testid } });
+    } else {
+      setShowValidationError(true);
+    }
   }
 
   return (
@@ -49,13 +55,30 @@ function Instruction() {
         </div>
       </div>
       <div className="continue-checkbox-container">
-        <input type="checkbox" id="continueCheckbox" checked={continueChecked} onChange={handleContinueCheckboxChange} />
+        <input 
+          type="checkbox" 
+          id="continueCheckbox" 
+          checked={continueChecked} 
+          onChange={handleContinueCheckboxChange} 
+        />
         <label htmlFor="continueCheckbox">I understand and want to continue</label>
-    </div>
-    <div className='next_btn_div'> 
-    <button type='button' className='next_btn' onClick={handleClick}> Next </button>
-    </div>
       </div>
+      {showValidationError && (
+        <div className="validation-error" style={{ color: 'red', marginTop: '10px' }}>
+          Please click on the checkbox to proceed.
+        </div>
+      )}
+      <div className='next_btn_div'> 
+        <button 
+          type='button' 
+          className='next_btn' 
+          onClick={handleClick} 
+          disabled={!continueChecked}
+        >
+          Next
+        </button>
+      </div>
+    </div>
   );
 }
 
