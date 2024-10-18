@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "server.session.timeout",
+    "type": "java.lang.String",
+    "description": "A description for 'server.session.timeout'"
+  },
+  {
+    "name": "spring.session.store.redis.host",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.session.store.redis.host'"
+  },
+  {
+    "name": "spring.session.store.redis.port",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.session.store.redis.port'"
+  }
+]}
